@@ -1,0 +1,50 @@
+version: "3.1"
+
+stories:
+
+- story: ChatGPT_Call_1
+  steps:
+  - intent: inform_out_of_scope
+  - action: action_default_ask_affirmation
+##  - action: email_form
+##  - active_loop: email_form
+##  - action: call_chatgpt
+
+##- story: ChatGPT_Call_2
+##  steps:
+##  - intent: out_of_scope
+##  - action: call_chatgpt
+
+##- story: ChatGPT_Call_3
+##  steps:
+##  - intent: inform_yes
+##  - action: call_chatgpt
+
+##- story: ChatGPT_Call_4
+##  steps:
+##  - intent: inform_no
+##  - action: call_chatgpt
+
+##- story: user wants to send email
+##  steps:
+#  - action: action_dummy
+#  - action: utter_askifsendemail
+##  - intent: inform_yes_eng
+##  - action: utter_askrecipient
+##  - intent: inform_recipient
+##  - action: collect_email_info
+##  - action: utter_askemail
+#  - intent: inform_email
+#  - action: collect_email_info
+#  - action: action_email
+#  - action: utter_thanks_for_talking
+#  - action: utter_goodbye
+
+#- story: user DOES NOT want to send email
+#  steps:
+#  - action: action_dummy
+#  - action: utter_askifsendemail
+#  - intent: inform_no_eng
+#  - action: action_delete_conversation_txt
+#  - action: utter_thanks_for_talking
+#  - action: utter_goodbye

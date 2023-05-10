@@ -1,0 +1,93 @@
+version: "3.1"
+nlu:
+- intent: greet
+  examples: |
+    - こんにちは
+    - こんばんは
+    - おはようございます
+    - おす
+    - げんきですか
+    - はじめまして
+    - おはよう
+    - やあ
+    - こんにちは。
+    - こんばんは。
+    - おはようございます。
+    - おす。
+    - げんきですか。
+    - はじめまして。
+    - おはよう。
+    - やあ。
+    - Hi
+    - hi
+- intent: inform_meguro
+  examples: |
+    - [meguroa@dickinson.edu](email)
+- intent: inform_bates
+  examples: |
+    - [batesa@dickinson.edu](email)
+- intent: goodbye
+  examples: |
+    - さよなら
+    - おやすみ
+    - おやすみなさい
+    - じゃあね
+    - じゃね
+    - じゃーね
+    - バイバイ
+    - またね
+    - ではまた
+    - しつれいします
+    - さよなら。
+    - おやすみ。
+    - おやすみなさい。
+    - じゃあね。
+    - じゃね。
+    - じゃーね。
+    - バイバイ。
+    - またね。
+    - ではまた。
+    - しつれいします。
+    - Bye
+- intent: quit
+  examples: |
+    - /quit
+
+- intent: out_of_scope
+  examples: |
+    - This is a random sentence
+    - Who
+    - What
+    - Where
+    - When
+    - Why
+    - the
+    - a
+    - he
+    - she
+    - it
+    - they
+
+#- intent: bot_challenge
+#  examples: |
+
+#- intent: inform_idk
+#  examples: |
+
+- intent: inform_yes
+  examples: |
+    - yes
+
+- intent: inform_no
+  examples: |
+    - no
+   
+#- intent: inform_email
+#  examples: |
+
+#- intent: inform_recipient
+#  examples: |
+
+#- intent: inform_no_eng
+#  examples: |
+

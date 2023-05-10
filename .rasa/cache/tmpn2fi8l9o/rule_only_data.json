@@ -1,0 +1,7 @@
+{
+  "rule_only_slots": [],
+  "rule_only_loops": [
+    "choose_professor_email_form",
+    "email_form"
+  ]
+}

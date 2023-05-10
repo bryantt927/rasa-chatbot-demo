@@ -1,0 +1,99 @@
+version: "3.1"
+
+rules:
+- rule: Activate form email chatGPT
+  steps:
+  - intent: greet
+  - action: call_chatgpt
+#  - action: email_form
+#  - active_loop: email_form
+
+#- rule: Send email Professor Bates
+#  steps:
+#  - intent: inform_bates
+#  - action: utter_send_email_bates
+
+#- rule: Activate form email chatGPT
+#  steps:
+#  - intent: inform_meguro
+#  - action: utter_send_email_meguro
+
+- rule: Activate email form
+  steps:
+  - intent: quit
+  - action: email_form
+  - active_loop: email_form
+
+- rule: submit email form
+  condition:
+  - active_loop: email_form
+  steps:
+    - action: email_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: email_intent
+
+- rule: Activate choose professor email form
+  steps:
+  - action: choose_professor_email_form
+  - active_loop: choose_professor_email_form
+
+- rule: submit choose professor email form
+  condition:
+  - active_loop: choose_professor_email_form
+  steps:
+    - action: choose_professor_email_form
+    - active_loop: null
+    - slot_was_set:
+      - requested_slot: null
+    - action: action_email  #need to change this so sends the email (I believe this is the right custom action)
+
+#- rule: if the email intent is yes do yes things
+#  steps:
+#  - action: email_intent_yes
+#  - action: utter_send_email
+# We need to make a rule for if the intent is no but it is as simple as copying the code for the
+# yes rule and changing the utter to the no utter pretty much
+#- rule: Out of scope send call to chatgpt
+#  steps:
+#  - intent: out_of_scope
+#  - action: call_chatgpt
+
+#maybe we can use this to end conversation.  If said yes to email at beginning, open custom action to get address and name
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'ボートです。' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+# simple fallback:
+- rule: Single stage fallback
+  steps:
+  - intent: nlu_fallback
+  - action: action_default_ask_affirmation
+
+# User says "I don't know"
+- rule: Send user inform_idk to fallback
+  steps:
+  - intent: inform_idk
+  - action: action_default_ask_affirmation
+
+# send email
+- rule: send an email after address is given
+  steps:
+  - intent: inform_email
+  - action: collect_email_info
+  - action: action_email
+  - action: utter_thanks_for_talking
+  - action: utter_goodbye
+
+# Ask about email
+# - rule: ask about email (start email stories)
+#  steps:
+#  - intent: inform_yes
+#  - action: utter_askifsendemail

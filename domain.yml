@@ -1,0 +1,127 @@
+version: '3.1'
+intents:
+- greet
+#- inform_idk
+- out_of_scope
+- inform_yes
+- inform_no
+- inform_bates
+- inform_meguro
+
+responses:
+#  utter_hello:
+#  - text: こんにちは。お元気でか。
+#  utter_intro:
+#  - text: 医者です。今日は気分が悪いでしょうか。質問をこたえてください。
+#    image: https://tenor.com/vqn7w8y4EvZ.gif
+#  utter_thank_you:
+#  - text: このよやくに来てくれてありがとうございました。また気分が悪かっら、ぜひれんらくしてください。
+  utter_goodbye:
+  - text: さよなら。
+    image: https://tenor.com/tUoc5jRtlAJ.gif
+#  utter_iamabot:
+#  - text: ラサのボートです.
+#    image: https://media.tenor.com/arlZrN0YovkAAAAC/robot-smile.gif
+#  utter_default:
+#  - text: すみません、わかりません。 Please rephrase your answer.
+#  utter_askrecipient:
+#  - text: Please type the name of the person you want to email.
+#  utter_askemail:
+#  - text: Please enter the email address of the person you want to email.
+#  utter_askifsendemail:
+#  - text: Do you want to send an email of the conversation log to anyone? Please type 'yes' or 'no' in English.
+#  utter_thanks_for_talking:
+#  - text: Thanks for talking.
+  utter_ask_email_form_desire_send_email:
+  - text: Would you like to send an email of your trancript to your professor?
+    buttons:
+    - title: "yes"
+      payload: "/inform_yes"
+    - title: "no"
+      payload: "/inform_no"
+  utter_ask_choose_professor_email_form_choose_professor_email_slot:
+  - text: Would you like to send an email of your trancript to your professor?
+    buttons:
+    - title: "Professor Bates"
+      payload: "/inform_batesa@dickinson.edu"
+    - title: "Professor Meguro"
+      payload: "/inform_meguroa@dickinson.edu"
+#  utter_ask_email_form_name:
+#  - text: What is their name?
+#  utter_ask_email_form_email:
+#  - text: What is their email?
+#  utter_greet:
+#  - text: "Hey! Wanna send an email"
+#  utter_send_email:
+#  - text: "Okay! Let's send an email!"
+#  utter_send_email_bates:
+#  - text: "Okay! Let's send an email to Prof Bates!"
+#  utter_send_email_meguro:
+#  - text: "Okay! Let's send an email to Prof Meguro!"
+#  utter_no_email:
+#  - text: "Okay email will not be sent."
+
+
+
+
+
+entities:
+- name
+- email
+
+slots:
+  desire_send_email:
+    type: bool
+    mappings:
+      - type: from_intent
+        value: true
+        intent: inform_yes
+      - type: from_intent
+        value: false
+        intent: inform_no
+
+#What this form is called, it's auto filling text.  I don't think we can use type:from text
+  choose_professor_email_slot:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: email
+
+forms:
+  email_form:
+    required_slots:
+        - desire_send_email
+  choose_professor_email_form:
+    required_slots:
+        - choose_professor_email_slot
+
+
+actions:
+- action_default_ask_affirmation
+- after_handle_did_not_understand_answer
+- action_email
+- action_delete_conversation_txt
+- utter_iamabot
+- utter_default
+- utter_askemail
+- utter_askrecipient
+- utter_askifsendemail
+- action_dummy
+- log_conversation_bot
+- log_conversation_user
+- collect_email_info
+- action_make_file
+- email_intent
+- email_intent_yes
+####################
+- utter_hello
+- utter_goodbye
+- call_chatgpt
+- utter_thanks_for_talking
+- utter_send_email
+- utter_no_email
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
