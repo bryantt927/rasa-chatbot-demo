@@ -218,20 +218,21 @@ class ActionEmail(Action):
         # slots and storing them in variables.
         # these are for the person RECIEVING the mail
         print("In action_email") 
-        emailFile = "emailInfo/emailInfo_" + tracker.sender_id + ".txt"
+        emailFile = "conversationLogs/conversation_" + tracker.sender_id + ".txt"
         email_txt = open(emailFile,"r") 
 
         name = tracker.get_slot("name")
-        recipient = email_txt.readline()
-        email_id = email_txt.readline()
+        recipient = "Professor"
+        email_address = tracker.get_slot("choose_professor_email_slot")
+        print("email address slot is " + email_address)
  
         email_txt.close()        
         
         # recipient = tracker.get_slot("recipient")
-        # email_id = tracker.get_slot("email")
+        # email_address = tracker.get_slot("email")
         # name = tracker.get_slot("name")
         # recipient = "Leah"
-        # email_id = "goldberl@dickinson.edu"
+        # email_address = "bryantt@dickinson.edu"
           
         # Code to send email
         # Creating connection using smtplib module
@@ -268,8 +269,7 @@ class ActionEmail(Action):
         
 	# The email address below is the person who is SENDING the mail  
         # Sending the mail
-        s.sendmail("academictechnology@dickinson.edu",email_id, message.encode("utf8"))
-          
+        s.sendmail("academictechnology@dickinson.edu",email_address, message.encode("utf8"))
         # Closing the connection
         s.quit()
 
@@ -280,7 +280,7 @@ class ActionEmail(Action):
             # Confirmation message
             dispatcher.utter_message(text="Email has been sent.")
         
-        emailFile = "emailInfo/emailInfo_" + tracker.sender_id + ".txt"
+        emailFile = "conversationLogs/conversation_" + tracker.sender_id + ".txt"
         if os.path.exists(emailFile):
             os.remove(emailFile)          
 
@@ -370,7 +370,7 @@ class CallChatGPT(Action):
         # with the senderID being unique to each user
         uniqueFile = "conversationLogs/conversation_" + tracker.sender_id + ".txt"
         conversation_txt = open(uniqueFile,"a")
-        
+        print("conversation file should be conversation_" + tracker.sender_id +".txt")
         # write latest conversations to txt file
         # Get last conversation for bot
         for event in tracker.events:

@@ -1,5 +1,0 @@
-
-Bot message: Would you like to send an email of your trancript to your professor?
-User message: /quit
-Bot message: さよなら。
-User message: /quit

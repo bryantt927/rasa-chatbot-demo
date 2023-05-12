@@ -47,7 +47,7 @@ rules:
     - active_loop: null
     - slot_was_set:
       - requested_slot: null
-    - action: action_email  #need to change this so sends the email (I believe this is the right custom action)
+    - action: action_email  #This is the right action to send the email. This action needs to be adapted however so it works.
 
 #- rule: if the email intent is yes do yes things
 #  steps:

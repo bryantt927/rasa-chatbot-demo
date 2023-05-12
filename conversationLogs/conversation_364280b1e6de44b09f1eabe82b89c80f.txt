@@ -1,7 +1,0 @@
-
-Bot message: This is the utterHello! How can I assist you today?
-User message: what is 2+2?
-Bot message: This is the utterHello! How can I assist you today?
-User message: /quit
-Bot message: This is the utter2+2 equals 4.
-User message: /quit
