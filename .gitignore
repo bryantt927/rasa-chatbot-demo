@@ -6,3 +6,4 @@
 
 # Ignore paths that contain models.
 models/
+.rasa/
