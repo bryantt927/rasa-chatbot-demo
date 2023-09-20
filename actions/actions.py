@@ -21,6 +21,9 @@ import openai
 import requests
 from dotenv import load_dotenv
 
+#This instantiates the prompt we want the bot to follow
+messageBase= [{"role": "system", "content": "You are a helpful assistant."},]
+
 # Runs if bot does not understand user's input
 class ActionDefaultAskAffirmation(Action):
 
@@ -356,14 +359,14 @@ class CallChatGPT(Action):
         
         #probably need to set this so does something different first time through
         #best idea set a slot value from true to false that is or is not first time through
-        userPrompt = tracker.latest_message['text']
+        userPrompt = tracker.latest_message["text"]
         print("Last message was " + userPrompt)
+
+	#Potential problem with formatting userPrompt this line gives chatGPT a history of user messages
+        messageBase.append({"role":"user", "content":f"{userPrompt}"},)
         response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-          {"role": "system", "content": "You are a helpful assistant."},
-          {"role": "user", "content": userPrompt},
-        ]
+        model="gpt-3.5-turbo", messages=messageBase, temperature=0
+        #model="gpt-3.5-turbo", messages=[{"role":"user", "content":f"{userPrompt}"},], temperature=0
         )
         print("after message object")
         # Creates/Open function to open the file "conversation_[senderID].txt" 
@@ -375,12 +378,22 @@ class CallChatGPT(Action):
         # Get last conversation for bot
         for event in tracker.events:
             if (event.get("event") == "bot"):
-                lastBotMessage = "Bot message: " + event.get("text")
+                lastBotMessage = "Assistant message: " + event.get("text")
                 conversation_txt.write("\n" + lastBotMessage)
-                conversation_txt.write("\nUser message: " + userPrompt)
+                conversation_txt.write("\nStudent message: " + userPrompt)
         conversation_txt.close()
         print("after for loop")
-        
+        #This gives the bot a memory of its own responses
+        tempBotMessage=response['choices'][0]['message']['content']
+        messageBase.append({"role":"assistant", "content":f"{tempBotMessage}"},)
+        print("Before removing element 1 twice")
+        print(messageBase)
+        #Here we are making sure the message thread never gets too long
+        if len(messageBase)>=11:
+            messageBase.pop(1)
+            messageBase.pop(1)
+        print("After removing element 1 twice")
+        print(messageBase)
         #Try putting a statement here where if last message was /quit, some way to open our transcript/email form.
         if userPrompt == "/quit":
             # write latest conversations to txt file
@@ -388,13 +401,13 @@ class CallChatGPT(Action):
             conversation_txt = open(uniqueFile,"a")
             for event in tracker.events:
                 if (event.get("event") == "bot"):
-                    lastBotMessage = "Bot message: " + event.get("text")
+                    lastBotMessage = "Assistant message: " + event.get("text")
             conversation_txt.close()
             print("in if statement")
             return[FollowupAction("email_form")]
 
         else:
-            dispatcher.utter_message(text="This is the utter" + response['choices'][0]['message']['content'])
+            dispatcher.utter_message(text="" + response['choices'][0]['message']['content'])
             return[Restarted()]
 
 class FindEmailIntent(Action):
